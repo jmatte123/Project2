@@ -12,11 +12,15 @@ public class Ship
     private Random gen = new Random();
     private int myID; //equals()
     private static int nextID = 0;
-    
+    private int currentPortId;
+
     //CHANGED TO add a TopBox method to show the Cargo currently at the top of the Stack
     public Cargo topBox()
     {
-        return cct.peek();
+        if (cct.peek() == null)
+            return null;
+        else
+            return cct.peek();
     }
     
     public boolean equals(Ship other)
@@ -53,13 +57,14 @@ public class Ship
     }
     
     
-    public Ship(String inName, double inMax, int inSpeed, int inDist)
+    public Ship(String inName, double inMax, int inSpeed, int dest)
     {
          setName(inName);
          setMax(inMax);
          setSpeed(inSpeed);
-         setDistance(inDist);
+         this.currentPortId = dest;
          setID();
+         setDistanceToDestination();
     }
     
     public Ship(String inName, double inMax, int inSpeed)
@@ -122,6 +127,21 @@ public class Ship
          {
               speed = inSpeed;
          }
+    }
+
+    public void setDistanceToDestination() {
+        switch (topBox().getDest()) {
+            case "Winnipeg": setDistance(Driver.distances[currentPortId][0]); break;
+            case "Dublin": setDistance(Driver.distances[currentPortId][1]); break;
+            case "Beverly Hills": setDistance(Driver.distances[currentPortId][2]); break;
+            case "London": setDistance(Driver.distances[currentPortId][3]); break;
+            case "Barcelona": setDistance(Driver.distances[currentPortId][4]); break;
+            case "Norway": setDistance(Driver.distances[currentPortId][5]); break;
+            default:
+                for (Port port : Driver.myPorts) {
+                    if (port.)
+                }
+        }
     }
 
     public void setDistance(int inDist)
@@ -254,5 +274,7 @@ public class Ship
               System.out.println("The Ship: " + getName() + " has arrived at its destination");
          }
     }
+
+
 
 }

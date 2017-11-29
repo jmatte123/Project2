@@ -34,6 +34,10 @@ public class Port
         }
             
     }
+
+    public boolean isEmpty() {
+
+    }
     
     public boolean equals(Port other)
      {

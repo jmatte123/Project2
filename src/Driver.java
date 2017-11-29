@@ -4,6 +4,37 @@ import java.io.*; //Need File IO Tools
 //NOTE TO TUTORS!  SEARCH FOR: "CHANGED TO" to find all changes from orignal code!
 public class Driver {
 
+    //create the distances between ports in miles
+    //winnipeg to dublin = 5151
+    //winnipeg to beverly hills = 1547
+    //winnipeg to london = 3903
+    //winnipeg to barcelona = 8385
+    //winnipeg to norway = 9730
+    //dublin to beverly hills = 5138
+    //dublin to london = 290
+    //dublin to barcelona = 917
+    //dublin to norway = 738
+    //beverly hills to london = 5477
+    //beverly hills to barcelona = 6024
+    //beverly hills to norway = 5237
+    //london to barcelona = 708
+    //london to norway = 697
+    //barcelona to norway = 1338
+
+    public static int[][] distances = {
+            //winnipeg = 0, dublin = 1, beverly hills = 2, london = 3, barcelona = 4, norway = 5
+            {0, 5151, 1547, 3903, 8385, 9730},
+            {5151, 0, 5138, 290, 917, 738},
+            {1547, 5138, 0, 5477, 6024, 5237},
+            {3903, 290, 5477, 0, 708, 697},
+            {8385, 917, 6024, 708, 0 , 1338},
+            {9730, 738, 5237, 697, 1338, 0},
+            {1567, 5185, 117, 5483, 6032, 5292, 0}
+    };
+    public static ArrayList<Port> myPorts = new ArrayList<>();
+    public static ArrayList<Ship> myShips = new ArrayList<Ship>();
+
+
     public static void main(String[] args) throws FileNotFoundException {
         //Create a link to an input file
         File portFile = new File("Ports.txt");
@@ -14,8 +45,6 @@ public class Driver {
         Scanner inputShips = new Scanner(shipFile);
 
         //Setup rest of reading tools and Array Lists
-        ArrayList<Port> myPorts = new ArrayList<Port>();
-        ArrayList<Ship> myShips = new ArrayList<Ship>();
         String line;
         String[] parts;
 
@@ -38,7 +67,8 @@ public class Driver {
             //Split line into parts
             parts = line.split("%");
             //Store Data
-            myShips.add(new Ship(parts[0], Double.parseDouble(parts[1]), Integer.parseInt(parts[2]), Integer.parseInt(parts[3])));
+            myShips.add(new Ship(parts[0], Double.parseDouble(parts[1]), Integer.parseInt(parts[2]), 6));
+            //portId 6 is the construction port where the ships are built
         }
         //Close input file, we are done with the input file
         inputShips.close();
@@ -72,32 +102,7 @@ public class Driver {
 
         }
 
-        //create the distances between ports in miles
-        //winnipeg to dublin = 5151
-        //winnipeg to beverly hills = 1547
-        //winnipeg to london = 3903
-        //winnipeg to barcelona = 8385
-        //winnipeg to norway = 9730
-        //dublin to beverly hills = 5138
-        //dublin to london = 290
-        //dublin to barcelona = 917
-        //dublin to norway = 738
-        //beverly hills to london = 5477
-        //beverly hills to barcelona = 6024
-        //beverly hills to norway = 5237
-        //london to barcelona = 708
-        //london to norway = 697
-        //barcelona to norway = 1338
 
-        int[][] distances = {
-                //winnipeg, dublin, beverly hills, london, barcelona, norway
-                {0, 5151, 1547, 3903, 8385, 9730},
-                {5151, 0, 5138, 290, 917, 738},
-                {1547, 5138, 0, 5477, 6024, 5237},
-                {3903, 290, 5477, 0, 708, 697},
-                {8385, 917, 6024, 708, 0 , 1338},
-                {9730, 738, 5237, 697, 1338, 0}
-        };
 
 
         //So, I've got:
@@ -123,6 +128,10 @@ public class Driver {
                                 docked = true;
                             }
                         }
+                    }
+                    //if the ship did not dock then find a port that has cargo and send the ship there
+                    for (Port p : myPorts) {
+
                     }
                     if (!docked) {
                         Random gen = new Random();
