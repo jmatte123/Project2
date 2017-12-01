@@ -91,9 +91,9 @@ public class Driver {
 
                 //Generate destination
                 //A Port's outbound cargo can't be for that same Port
-                int dest = rng.nextInt(myPorts.size());
+                int dest = rng.nextInt((myPorts.size() - 1));
                 while (eachPort.getName().equals(myPorts.get(dest).getName())) {
-                    dest = rng.nextInt(myPorts.size());
+                    dest = rng.nextInt((myPorts.size() - 1));
                 }
                 String target = myPorts.get(dest).getName();
 
@@ -127,11 +127,11 @@ public class Driver {
         int day = 0;
         do {
 
-            System.out.println("\n////////////\nstart of loop\n//////////////\n");
-
             //Move Ships
             while (notDone) {
                 for (Ship s : myShips) {
+                    if (s.getDestPortId() == s.getCurrentPortId())
+                        continue;
                     s.travel();
                     for (Port p : myPorts) {
                         if (s.getDistance() == 0 && s.getDestPortId() == p.getID())
@@ -180,9 +180,9 @@ public class Driver {
                 if (s.getCurrentCargoTonnage() > 0.0)
                     notDone = true;
             }
-            System.out.println("\n////////////\nend of loop\n//////////////\n");
 
         } while (notDone);
+        System.out.println("Amount of days: " + day);
         System.out.println("DONE!");
 
     }

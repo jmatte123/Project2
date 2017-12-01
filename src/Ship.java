@@ -128,7 +128,12 @@ public class Ship {
      */
     public void setDestPortId(int destPortId) {
         this.destPortId = destPortId;
-        Driver.ledger[destPortId]++;
+        if (currentPortId != destPortId)
+            Driver.ledger[destPortId]++;
+    }
+
+    public int getCurrentPortId() {
+        return currentPortId;
     }
 
     /**
@@ -273,7 +278,8 @@ public class Ship {
         int traveled = 0;
 
         if (getDistance() == 0) {
-            return;
+            currentPortId = destPortId;
+            Driver.ledger[destPortId]--;
         } else if (getDistance() > getSpeed()) {
             traveled = getDistance() - getSpeed();
             setDistance(traveled);

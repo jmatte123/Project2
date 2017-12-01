@@ -17,7 +17,6 @@ public class Port
     {
         if (!ships.contains(newShip)) {
             ships.add(newShip);
-            Driver.ledger[myID]--;
         }
     }
     
