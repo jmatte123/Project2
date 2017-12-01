@@ -1,0 +1,16 @@
+1/2:    What happens is that the ships start at or get built at the port "San Diego".  Once the ports are built, each ship gets
+assigned a port that is not empty and that no other ship is heading towards.  Ships with no cargo cannot go to the same port
+because then it would be inefficient, actually it would be just like sending a ship to a port that has no outbound cargo because
+the first ship that docks takes all the outbound cargo.  When the ship gets assigned a port, it also
+gets assigned a distance from the current port to the destination port.  These distances are held in a two dimensional array
+of distances (from google maps).  There is also a ledger keeping track of which ships are traveling and to which ports,  we
+needed this so that not only o check if a ship is already traveling to another port but to make sure that all the ships
+are at their destination ports before processing.
+
+3:  We think that this solution as a lot more effective than the previous state of the simulation, considering that it
+took around 1000 days before and after it takes about 10 days.
+
+4:  To make this more efficient you could go one step further and use threading to move all ships at the same time concurrently.
+You could also make so that a ship only takes a portion of the outbound cargo depending upon how many ships are not in use, in
+doing this it would ensure that all the ships are being used to move the cargo to heir destinations faster.  Lastly, you could
+also make it so that each ship only takes cargo with one destination.
