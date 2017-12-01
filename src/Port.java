@@ -15,7 +15,10 @@ public class Port
     //CHANGED TO a new method for allowing a ship to dock with the port
     public void dock(Ship newShip)
     {
+        if (ships.contains(newShip))
+            return;
         ships.add(newShip);
+        Driver.ledger[myID] -= 1;
     }
     
     //CHANGED TO a new method for processing ships inside the port
@@ -30,13 +33,18 @@ public class Port
             load(ships.peek());
             
             //Send Ship off to its next destination
-            ships.remove().setDistance(gen.nextInt(2000) + 500);
+            ships.remove().setDistanceToDestination();
         }
             
     }
 
+    /**
+     * checks to see if there is any cargo at the port that needs to be shipped off
+     *
+     * @return true if there is cargo otherwise false
+     */
     public boolean isEmpty() {
-
+        return outbound.isEmpty();
     }
     
     public boolean equals(Port other)

@@ -31,6 +31,8 @@ public class Driver {
             {9730, 738, 5237, 697, 1338, 0},
             {1567, 5185, 117, 5483, 6032, 5292, 0}
     };
+
+    public static int[] ledger = {0, 0, 0, 0, 0, 0};
     public static ArrayList<Port> myPorts = new ArrayList<>();
     public static ArrayList<Ship> myShips = new ArrayList<Ship>();
 
@@ -103,7 +105,11 @@ public class Driver {
         }
 
 
-
+        //after all the ships are created and there is cargo at the ports, we are ready to
+        //start the simulation by setting the destination of each ship.
+        for (Ship ship : myShips) {
+            ship.setDistanceToDestination();
+        }
 
         //So, I've got:
         // A List of Ships (without cargo)
@@ -116,32 +122,28 @@ public class Driver {
         int day = 0;
         do {
 
-            //Move Ships
-            for (Ship s : myShips) {
-                s.travel();
-                if (s.getDistance() == 0) {
-                    boolean docked = false;
-                    for (Port p : myPorts) {
-                        if (s.getCurrentCargoTonnage() > 0.0) {
-                            if (p.getName().equals(s.topBox().getDest())) {
-                                p.dock(s);
-                                docked = true;
-                            }
-                        }
-                    }
-                    //if the ship did not dock then find a port that has cargo and send the ship there
-                    for (Port p : myPorts) {
+            System.out.println("\n////////////\nstart of loop\n//////////////\n");
 
-                    }
-                    if (!docked) {
-                        Random gen = new Random();
-                        myPorts.get(gen.nextInt(myPorts.size())).dock(s);
-                    }
+            //Move Ships
+            while (notDone) {
+                for (Ship s : myShips) {
+                    s.travel();
+                    if (s.getDistance() == 0)
+                        myPorts.get(s.getDestPortId()).dock(s);
                 }
+
+                int count = 0;
+                for (int i : ledger)
+                    count += i;
+                if (count == 0)
+                    notDone = false;
             }
+            System.out.println("Ships reached their destinations");
 
             //Proccess Ships in the Port
             for (Port p : myPorts) {
+                if (p.getID() == 6)
+                    continue;
                 p.process();
             }
 
@@ -171,7 +173,7 @@ public class Driver {
                 if (s.getCurrentCargoTonnage() > 0.0)
                     notDone = true;
             }
-
+            System.out.println("\n////////////\nend of loop\n//////////////\n");
 
         } while (notDone);
         System.out.println("DONE!");
