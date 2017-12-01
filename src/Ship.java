@@ -128,7 +128,7 @@ public class Ship {
      */
     public void setDestPortId(int destPortId) {
         this.destPortId = destPortId;
-        Driver.ledger[destPortId] += 1;
+        Driver.ledger[destPortId]++;
     }
 
     /**

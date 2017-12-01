@@ -15,10 +15,10 @@ public class Port
     //CHANGED TO a new method for allowing a ship to dock with the port
     public void dock(Ship newShip)
     {
-        if (ships.contains(newShip))
-            return;
-        ships.add(newShip);
-        Driver.ledger[myID] -= 1;
+        if (!ships.contains(newShip)) {
+            ships.add(newShip);
+            Driver.ledger[myID]--;
+        }
     }
     
     //CHANGED TO a new method for processing ships inside the port

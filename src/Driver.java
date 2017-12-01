@@ -20,7 +20,6 @@ public class Driver {
     //london to barcelona = 708
     //london to norway = 697
     //barcelona to norway = 1338
-
     public static int[][] distances = {
             //winnipeg = 0, dublin = 1, beverly hills = 2, london = 3, barcelona = 4, norway = 5
             {0, 5151, 1547, 3903, 8385, 9730},
@@ -32,7 +31,11 @@ public class Driver {
             {1567, 5185, 117, 5483, 6032, 5292, 0}
     };
 
+    /**
+     * the ledger keeping track of where the ships are headed
+     */
     public static int[] ledger = {0, 0, 0, 0, 0, 0};
+
     public static ArrayList<Port> myPorts = new ArrayList<>();
     public static ArrayList<Ship> myShips = new ArrayList<Ship>();
 
@@ -78,6 +81,8 @@ public class Driver {
         //Add some cargo to each port
         Random rng = new Random();
         for (Port eachPort : myPorts) {
+            if (eachPort.getID() == 6)
+                continue;
             //Generate between 1 and 10 cargo objects per Port
             int objects = rng.nextInt(10);
             for (int x = 0; x <= objects; x++) {
@@ -128,8 +133,10 @@ public class Driver {
             while (notDone) {
                 for (Ship s : myShips) {
                     s.travel();
-                    if (s.getDistance() == 0)
-                        myPorts.get(s.getDestPortId()).dock(s);
+                    for (Port p : myPorts) {
+                        if (s.getDistance() == 0 && s.getDestPortId() == p.getID())
+                            p.dock(s);
+                    }
                 }
 
                 int count = 0;
